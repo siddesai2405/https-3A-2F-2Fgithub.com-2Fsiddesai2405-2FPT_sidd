@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { User, clearSession, getCurrentUser, setCurrentUser } from '../lib/db';
 import { loginUser, registerUser } from '../lib/auth';
+import { initializeDatabase } from '../lib/db-init';
 
 interface AuthContextType {
   user: User | null;
