@@ -1,14 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import { Stethoscope, MapPin, Phone, Copy, AlertCircle, Zap } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
-import { getGynecologists, Gynecologist as GynecologistType } from '@/lib/db';
+import React, { useState, useEffect } from "react";
+import {
+  Stethoscope,
+  MapPin,
+  Phone,
+  Copy,
+  AlertCircle,
+  Zap,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { getGynecologists, Gynecologist as GynecologistType } from "@/lib/db";
 
 const Gynecologist: React.FC = () => {
   const [gynecologists, setGynecologists] = useState<GynecologistType[]>([]);
-  const [filteredGynecologists, setFilteredGynecologists] = useState<GynecologistType[]>([]);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
+  const [filteredGynecologists, setFilteredGynecologists] = useState<
+    GynecologistType[]
+  >([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [userLocation, setUserLocation] = useState<{
+    lat: number;
+    lng: number;
+  } | null>(null);
   const [loading, setLoading] = useState(false);
   const [copiedId, setCopiedId] = useState<number | null>(null);
 
@@ -26,7 +38,7 @@ const Gynecologist: React.FC = () => {
       const data = await getGynecologists();
       setGynecologists(data);
     } catch (error) {
-      console.error('Failed to load gynecologists:', error);
+      console.error("Failed to load gynecologists:", error);
     }
   };
 
@@ -40,13 +52,18 @@ const Gynecologist: React.FC = () => {
           });
         },
         (error) => {
-          console.log('Location access denied:', error);
-        }
+          console.log("Location access denied:", error);
+        },
       );
     }
   };
 
-  const calculateDistance = (lat1: number, lng1: number, lat2: number, lng2: number): number => {
+  const calculateDistance = (
+    lat1: number,
+    lng1: number,
+    lat2: number,
+    lng2: number,
+  ): number => {
     const R = 6371; // Earth's radius in km
     const dLat = ((lat2 - lat1) * Math.PI) / 180;
     const dLng = ((lng2 - lng1) * Math.PI) / 180;
@@ -61,16 +78,27 @@ const Gynecologist: React.FC = () => {
   };
 
   const filterGynecologists = () => {
-    let filtered = gynecologists.filter((g) =>
-      g.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      g.clinic.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      g.address.toLowerCase().includes(searchTerm.toLowerCase())
+    let filtered = gynecologists.filter(
+      (g) =>
+        g.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        g.clinic.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        g.address.toLowerCase().includes(searchTerm.toLowerCase()),
     );
 
-    if (userLocation && filtered.every(g => g.lat && g.lng)) {
+    if (userLocation && filtered.every((g) => g.lat && g.lng)) {
       filtered.sort((a, b) => {
-        const distA = calculateDistance(userLocation.lat, userLocation.lng, a.lat!, a.lng!);
-        const distB = calculateDistance(userLocation.lat, userLocation.lng, b.lat!, b.lng!);
+        const distA = calculateDistance(
+          userLocation.lat,
+          userLocation.lng,
+          a.lat!,
+          a.lng!,
+        );
+        const distB = calculateDistance(
+          userLocation.lat,
+          userLocation.lng,
+          b.lat!,
+          b.lng!,
+        );
         return distA - distB;
       });
     }
@@ -86,16 +114,27 @@ const Gynecologist: React.FC = () => {
 
   const getDistanceText = (gyn: GynecologistType): string | null => {
     if (!userLocation || !gyn.lat || !gyn.lng) return null;
-    const distance = calculateDistance(userLocation.lat, userLocation.lng, gyn.lat, gyn.lng);
-    return distance < 1 ? `${(distance * 1000).toFixed(0)}m` : `${distance.toFixed(1)}km`;
+    const distance = calculateDistance(
+      userLocation.lat,
+      userLocation.lng,
+      gyn.lat,
+      gyn.lng,
+    );
+    return distance < 1
+      ? `${(distance * 1000).toFixed(0)}m`
+      : `${distance.toFixed(1)}km`;
   };
 
   return (
     <div className="min-h-screen bg-background space-y-6 p-4">
       {/* Header */}
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold text-foreground">Nearby Gynecologists</h1>
-        <p className="text-muted-foreground">Find healthcare providers near you</p>
+        <h1 className="text-3xl font-bold text-foreground">
+          Nearby Gynecologists
+        </h1>
+        <p className="text-muted-foreground">
+          Find healthcare providers near you
+        </p>
       </div>
 
       {/* Search Bar */}
@@ -106,10 +145,10 @@ const Gynecologist: React.FC = () => {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className={cn(
-            'w-full px-4 py-3 rounded-lg',
-            'bg-card border border-border',
-            'text-foreground placeholder:text-muted-foreground',
-            'focus:outline-none focus:ring-2 focus:ring-primary'
+            "w-full px-4 py-3 rounded-lg",
+            "bg-card border border-border",
+            "text-foreground placeholder:text-muted-foreground",
+            "focus:outline-none focus:ring-2 focus:ring-primary",
           )}
         />
       </div>
@@ -124,7 +163,8 @@ const Gynecologist: React.FC = () => {
             <div>
               <h3 className="font-semibold text-foreground">No data yet</h3>
               <p className="text-sm text-muted-foreground mt-1">
-                No gynecologists have been imported yet. Admins can import a list via settings.
+                No gynecologists have been imported yet. Admins can import a
+                list via settings.
               </p>
             </div>
           </div>
@@ -142,12 +182,16 @@ const Gynecologist: React.FC = () => {
             >
               <div className="flex justify-between items-start gap-4">
                 <div className="flex-1">
-                  <h2 className="text-xl font-bold text-foreground">{gyn.name}</h2>
+                  <h2 className="text-xl font-bold text-foreground">
+                    {gyn.name}
+                  </h2>
                   <p className="text-sm text-muted-foreground">{gyn.clinic}</p>
                 </div>
                 {distance && (
                   <div className="text-right">
-                    <p className="text-sm font-semibold text-primary">{distance}</p>
+                    <p className="text-sm font-semibold text-primary">
+                      {distance}
+                    </p>
                     <p className="text-xs text-muted-foreground">away</p>
                   </div>
                 )}
@@ -155,7 +199,10 @@ const Gynecologist: React.FC = () => {
 
               <div className="space-y-2">
                 <div className="flex items-start gap-3 text-sm">
-                  <MapPin className="text-primary flex-shrink-0 mt-0.5" size={18} />
+                  <MapPin
+                    className="text-primary flex-shrink-0 mt-0.5"
+                    size={18}
+                  />
                   <div className="flex-1">
                     <p className="text-foreground">{gyn.address}</p>
                     <button
@@ -163,7 +210,7 @@ const Gynecologist: React.FC = () => {
                       className="text-primary hover:text-primary/80 text-xs mt-1 flex items-center gap-1"
                     >
                       <Copy size={12} />
-                      {copiedId === gyn.id ? 'Copied!' : 'Copy address'}
+                      {copiedId === gyn.id ? "Copied!" : "Copy address"}
                     </button>
                   </div>
                 </div>
@@ -175,14 +222,18 @@ const Gynecologist: React.FC = () => {
                     className="text-foreground hover:text-primary flex items-center gap-1"
                   >
                     {gyn.phone}
-                    {copiedId === gyn.id && <span className="text-xs text-primary">(Copied!)</span>}
+                    {copiedId === gyn.id && (
+                      <span className="text-xs text-primary">(Copied!)</span>
+                    )}
                   </button>
                 </div>
               </div>
 
               {gyn.specialization && (
                 <div className="pt-2 border-t border-border">
-                  <p className="text-xs text-muted-foreground">Specialization: {gyn.specialization}</p>
+                  <p className="text-xs text-muted-foreground">
+                    Specialization: {gyn.specialization}
+                  </p>
                 </div>
               )}
 

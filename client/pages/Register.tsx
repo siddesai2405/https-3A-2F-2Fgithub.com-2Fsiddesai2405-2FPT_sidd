@@ -1,42 +1,42 @@
-import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { useAuth } from '@/contexts/AuthContext';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Heart } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import React, { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Heart } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const Register: React.FC = () => {
   const navigate = useNavigate();
   const { register } = useAuth();
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
   });
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
+    setError("");
 
     if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match');
+      setError("Passwords do not match");
       return;
     }
 
     if (formData.password.length < 6) {
-      setError('Password must be at least 6 characters');
+      setError("Password must be at least 6 characters");
       return;
     }
 
@@ -44,9 +44,9 @@ const Register: React.FC = () => {
 
     try {
       await register(formData.name, formData.email, formData.password);
-      navigate('/');
+      navigate("/");
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Registration failed');
+      setError(err instanceof Error ? err.message : "Registration failed");
     } finally {
       setLoading(false);
     }
@@ -66,14 +66,20 @@ const Register: React.FC = () => {
 
       {/* Register Form */}
       <div className="flex-1 flex items-center justify-center px-4 pb-20">
-        <div className={cn(
-          'w-full max-w-md bg-card rounded-2xl',
-          'border border-border shadow-lg',
-          'p-8 space-y-6'
-        )}>
+        <div
+          className={cn(
+            "w-full max-w-md bg-card rounded-2xl",
+            "border border-border shadow-lg",
+            "p-8 space-y-6",
+          )}
+        >
           <div className="text-center space-y-2">
-            <h2 className="text-2xl font-bold text-foreground">Create Account</h2>
-            <p className="text-muted-foreground">Start tracking your cycle today</p>
+            <h2 className="text-2xl font-bold text-foreground">
+              Create Account
+            </h2>
+            <p className="text-muted-foreground">
+              Start tracking your cycle today
+            </p>
           </div>
 
           {error && (
@@ -84,7 +90,9 @@ const Register: React.FC = () => {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <label className="text-sm font-medium text-foreground">Full Name</label>
+              <label className="text-sm font-medium text-foreground">
+                Full Name
+              </label>
               <Input
                 type="text"
                 name="name"
@@ -97,7 +105,9 @@ const Register: React.FC = () => {
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-medium text-foreground">Email</label>
+              <label className="text-sm font-medium text-foreground">
+                Email
+              </label>
               <Input
                 type="email"
                 name="email"
@@ -110,7 +120,9 @@ const Register: React.FC = () => {
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-medium text-foreground">Password</label>
+              <label className="text-sm font-medium text-foreground">
+                Password
+              </label>
               <Input
                 type="password"
                 name="password"
@@ -123,7 +135,9 @@ const Register: React.FC = () => {
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-medium text-foreground">Confirm Password</label>
+              <label className="text-sm font-medium text-foreground">
+                Confirm Password
+              </label>
               <Input
                 type="password"
                 name="confirmPassword"
@@ -139,13 +153,13 @@ const Register: React.FC = () => {
               type="submit"
               disabled={loading}
               className={cn(
-                'w-full h-11 text-base font-semibold',
-                'bg-gradient-to-r from-primary to-secondary',
-                'hover:from-primary/90 hover:to-secondary/90',
-                'text-primary-foreground'
+                "w-full h-11 text-base font-semibold",
+                "bg-gradient-to-r from-primary to-secondary",
+                "hover:from-primary/90 hover:to-secondary/90",
+                "text-primary-foreground",
               )}
             >
-              {loading ? 'Creating Account...' : 'Create Account'}
+              {loading ? "Creating Account..." : "Create Account"}
             </Button>
           </form>
 
@@ -159,7 +173,7 @@ const Register: React.FC = () => {
           </div>
 
           <p className="text-center text-muted-foreground text-sm">
-            Already have an account?{' '}
+            Already have an account?{" "}
             <Link
               to="/login"
               className="font-semibold text-primary hover:text-primary/90 transition-colors"

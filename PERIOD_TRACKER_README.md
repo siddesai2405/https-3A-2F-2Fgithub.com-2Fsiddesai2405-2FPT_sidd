@@ -7,6 +7,7 @@ A modern, privacy-focused period tracking web application that works entirely of
 ## ✨ Features
 
 ### Core Features
+
 - **Cycle Calendar** - Visual calendar interface for tracking period, symptoms, and events
 - **Mood Tracker** - Log daily emotions with intensity levels
 - **Personal Chat Assistant** - AI-powered offline chatbot for health tips (coming soon)
@@ -16,6 +17,7 @@ A modern, privacy-focused period tracking web application that works entirely of
 - **Settings** - Customize cycle parameters and app preferences
 
 ### Security & Privacy
+
 - ✅ 100% offline operation (after initial load)
 - ✅ All data stored locally in IndexedDB
 - ✅ Password hashing with bcryptjs
@@ -59,6 +61,7 @@ client/
 ## 🗄️ Database Schema
 
 ### Users Table
+
 ```typescript
 {
   id: number,
@@ -76,6 +79,7 @@ client/
 ```
 
 ### Events Table
+
 ```typescript
 {
   id: number,
@@ -93,6 +97,7 @@ client/
 ```
 
 ### Gynecologists Table
+
 ```typescript
 {
   id: number,
@@ -109,6 +114,7 @@ client/
 ```
 
 ### Settings Table
+
 ```typescript
 {
   id: number,
@@ -127,14 +133,17 @@ client/
 ## 🔐 Authentication
 
 ### Demo Account
+
 - **Email**: demo@example.com
 - **Password**: demo123
 
 ### User Roles
+
 - **User**: Can track their cycle, view statistics, and access all features
 - **Admin**: Can manage users, import gynecologist data, and export/import system data
 
 ### Password Security
+
 - Passwords are hashed using bcryptjs (10 salt rounds)
 - Never stored in plain text
 - Verified securely during login
@@ -142,6 +151,7 @@ client/
 ## 🚀 Getting Started
 
 ### Development
+
 ```bash
 pnpm install    # Install dependencies
 pnpm dev        # Start dev server with hot reload
@@ -158,7 +168,7 @@ pnpm test       # Run tests
 4. **Food Guide**: View cycle-phase-specific nutrition tips
 5. **Doctor Finder**: Search and locate nearby gynecologists (uses geolocation)
 6. **Stats**: View charts of your cycle patterns and mood trends
-7. **Settings**: 
+7. **Settings**:
    - Customize cycle length and phases
    - Toggle notifications
    - Switch theme (light/dark/auto)
@@ -170,12 +180,13 @@ pnpm test       # Run tests
 - **Component Library**: Radix UI
 - **Icons**: Lucide React
 - **Charts**: Recharts
-- **Color Scheme**: 
+- **Color Scheme**:
   - Primary: Magenta/Pink (#EC4899)
   - Secondary: Purple (#8B5CF6)
   - Accent colors for cycle phases
 
 ### Custom CSS Variables
+
 - `--primary`: Main brand color
 - `--secondary`: Accent color
 - `--period`, `--fertile`, `--ovulation`: Phase indicators
@@ -184,25 +195,30 @@ pnpm test       # Run tests
 ## 📊 Key Algorithms
 
 ### Cycle Prediction
+
 Calculates the next expected period based on:
+
 - Average cycle length (user-configurable)
 - Last period start date
 - Current date
 
 ### Distance Calculation (Gynecologist)
+
 Uses the Haversine formula to calculate distances from user location to providers:
+
 ```
 distance = 2 * R * asin(sqrt(sin²((lat2-lat1)/2) + cos(lat1) * cos(lat2) * sin²((lng2-lng1)/2)))
 ```
 
 ### Mood Trends
+
 - Calculates average mood intensity per date
 - Plots trends over the last 30 days
 - Identifies patterns across cycle phases
 
 ## 🔄 Data Flow
 
-1. **Initialization**: 
+1. **Initialization**:
    - App loads AuthContext
    - Database initializes with demo user if needed
    - User either logs in or registers
@@ -230,6 +246,7 @@ distance = 2 * R * asin(sqrt(sin²((lat2-lat1)/2) + cos(lat1) * cos(lat2) * sin�
 ## 🔗 Navigation
 
 ### Bottom Navigation Items
+
 1. **Home** - Overview and quick actions
 2. **Calendar** - Monthly calendar with event logging
 3. **Mood** - Emotion tracking with intensity levels
@@ -242,13 +259,16 @@ distance = 2 * R * asin(sqrt(sin²((lat2-lat1)/2) + cos(lat1) * cos(lat2) * sin�
 ## 🚀 Deployment
 
 ### Local Build
+
 ```bash
 pnpm build      # Creates dist/ folder
 pnpm start      # Serves production build
 ```
 
 ### Cloud Deployment
+
 The app is optimized for deployment to:
+
 - **Netlify** (recommended) - Static hosting with serverless functions
 - **Vercel** - Edge functions and optimal performance
 - **Any Static Hosting** - Just serve dist/spa/ folder

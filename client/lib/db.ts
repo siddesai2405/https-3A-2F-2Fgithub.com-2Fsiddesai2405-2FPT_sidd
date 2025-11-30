@@ -1,11 +1,11 @@
-import Dexie, { Table } from 'dexie';
+import Dexie, { Table } from "dexie";
 
 export interface User {
   id?: number;
   name: string;
   email: string;
   passwordHash: string;
-  role: 'user' | 'admin';
+  role: "user" | "admin";
   profile: {
     cycleLength: number;
     lutealLength: number;
@@ -18,8 +18,8 @@ export interface Event {
   id?: number;
   userId: number;
   date: string; // YYYY-MM-DD
-  type: 'period' | 'symptom' | 'note' | 'pill' | 'mood';
-  mood?: 'happy' | 'neutral' | 'sad' | 'angry' | 'tired' | 'excited';
+  type: "period" | "symptom" | "note" | "pill" | "mood";
+  mood?: "happy" | "neutral" | "sad" | "angry" | "tired" | "excited";
   moodIntensity?: number; // 1-5
   note?: string;
   intensity?: number; // 1-5 for symptoms
@@ -48,7 +48,7 @@ export interface Settings {
   lutealLength: number;
   periodLength: number;
   notificationsEnabled: boolean;
-  theme: 'light' | 'dark' | 'auto';
+  theme: "light" | "dark" | "auto";
   language: string;
   createdAt: number;
   updatedAt: number;
@@ -68,13 +68,13 @@ export class PeriodTrackerDB extends Dexie {
   session!: Table<AppSession>;
 
   constructor() {
-    super('PeriodTrackerDB');
+    super("PeriodTrackerDB");
     this.version(1).stores({
-      users: '++id, email',
-      events: '++id, userId, date, [userId+date]',
-      gynecologists: '++id',
-      settings: '++id, userId',
-      session: '++id',
+      users: "++id, email",
+      events: "++id, userId, date, [userId+date]",
+      gynecologists: "++id",
+      settings: "++id, userId",
+      session: "++id",
     });
   }
 }
@@ -102,17 +102,23 @@ export async function clearSession(): Promise<void> {
   await db.session.clear();
 }
 
-export async function getUserEvents(userId: number, startDate?: string, endDate?: string): Promise<Event[]> {
-  let query = db.events.where('userId').equals(userId);
-  
+export async function getUserEvents(
+  userId: number,
+  startDate?: string,
+  endDate?: string,
+): Promise<Event[]> {
+  let query = db.events.where("userId").equals(userId);
+
   if (startDate && endDate) {
-    query = query.filter(e => e.date >= startDate && e.date <= endDate);
+    query = query.filter((e) => e.date >= startDate && e.date <= endDate);
   }
-  
+
   return query.toArray();
 }
 
-export async function addEvent(event: Omit<Event, 'id' | 'createdAt' | 'updatedAt'>): Promise<number> {
+export async function addEvent(
+  event: Omit<Event, "id" | "createdAt" | "updatedAt">,
+): Promise<number> {
   return db.events.add({
     ...event,
     createdAt: Date.now(),
@@ -120,7 +126,10 @@ export async function addEvent(event: Omit<Event, 'id' | 'createdAt' | 'updatedA
   });
 }
 
-export async function updateEvent(id: number, updates: Partial<Event>): Promise<number> {
+export async function updateEvent(
+  id: number,
+  updates: Partial<Event>,
+): Promise<number> {
   await db.events.update(id, {
     ...updates,
     updatedAt: Date.now(),
@@ -136,28 +145,37 @@ export async function getGynecologists(): Promise<Gynecologist[]> {
   return db.gynecologists.toArray();
 }
 
-export async function addGynecologist(gyn: Omit<Gynecologist, 'id' | 'createdAt'>): Promise<number> {
+export async function addGynecologist(
+  gyn: Omit<Gynecologist, "id" | "createdAt">,
+): Promise<number> {
   return db.gynecologists.add({
     ...gyn,
     createdAt: Date.now(),
   });
 }
 
-export async function bulkImportGynecologists(gynecologists: Omit<Gynecologist, 'id' | 'createdAt'>[]): Promise<void> {
+export async function bulkImportGynecologists(
+  gynecologists: Omit<Gynecologist, "id" | "createdAt">[],
+): Promise<void> {
   await db.gynecologists.clear();
   await db.gynecologists.bulkAdd(
-    gynecologists.map(g => ({
+    gynecologists.map((g) => ({
       ...g,
       createdAt: Date.now(),
-    }))
+    })),
   );
 }
 
-export async function getUserSettings(userId: number): Promise<Settings | undefined> {
-  return db.settings.where('userId').equals(userId).first();
+export async function getUserSettings(
+  userId: number,
+): Promise<Settings | undefined> {
+  return db.settings.where("userId").equals(userId).first();
 }
 
-export async function updateUserSettings(userId: number, updates: Partial<Settings>): Promise<void> {
+export async function updateUserSettings(
+  userId: number,
+  updates: Partial<Settings>,
+): Promise<void> {
   const existing = await getUserSettings(userId);
   if (existing) {
     await db.settings.update(existing.id!, {
@@ -171,8 +189,8 @@ export async function updateUserSettings(userId: number, updates: Partial<Settin
       lutealLength: 14,
       periodLength: 5,
       notificationsEnabled: true,
-      theme: 'auto',
-      language: 'en',
+      theme: "auto",
+      language: "en",
       createdAt: Date.now(),
       updatedAt: Date.now(),
       ...updates,

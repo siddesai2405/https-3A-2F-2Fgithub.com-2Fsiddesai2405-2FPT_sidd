@@ -1,7 +1,7 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { AlertCircle, Home } from 'lucide-react';
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { AlertCircle, Home } from "lucide-react";
 
 const NotFound: React.FC = () => {
   const navigate = useNavigate();
@@ -17,14 +17,16 @@ const NotFound: React.FC = () => {
 
         <div className="space-y-2">
           <h1 className="text-4xl font-bold text-foreground">404</h1>
-          <h2 className="text-xl font-semibold text-foreground">Page Not Found</h2>
+          <h2 className="text-xl font-semibold text-foreground">
+            Page Not Found
+          </h2>
           <p className="text-muted-foreground">
             Sorry, the page you're looking for doesn't exist.
           </p>
         </div>
 
         <Button
-          onClick={() => navigate('/')}
+          onClick={() => navigate("/")}
           className="w-full gap-2 bg-primary hover:bg-primary/90"
         >
           <Home size={18} />

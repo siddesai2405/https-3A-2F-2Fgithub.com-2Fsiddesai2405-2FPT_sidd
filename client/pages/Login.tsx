@@ -1,29 +1,29 @@
-import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { useAuth } from '@/contexts/AuthContext';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Heart } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import React, { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Heart } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
+    setError("");
     setLoading(true);
 
     try {
       await login(email, password);
-      navigate('/');
+      navigate("/");
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Login failed');
+      setError(err instanceof Error ? err.message : "Login failed");
     } finally {
       setLoading(false);
     }
@@ -43,14 +43,18 @@ const Login: React.FC = () => {
 
       {/* Login Form */}
       <div className="flex-1 flex items-center justify-center px-4 pb-20">
-        <div className={cn(
-          'w-full max-w-md bg-card rounded-2xl',
-          'border border-border shadow-lg',
-          'p-8 space-y-6'
-        )}>
+        <div
+          className={cn(
+            "w-full max-w-md bg-card rounded-2xl",
+            "border border-border shadow-lg",
+            "p-8 space-y-6",
+          )}
+        >
           <div className="text-center space-y-2">
             <h2 className="text-2xl font-bold text-foreground">Welcome Back</h2>
-            <p className="text-muted-foreground">Track your cycle with confidence</p>
+            <p className="text-muted-foreground">
+              Track your cycle with confidence
+            </p>
           </div>
 
           {error && (
@@ -61,7 +65,9 @@ const Login: React.FC = () => {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <label className="text-sm font-medium text-foreground">Email</label>
+              <label className="text-sm font-medium text-foreground">
+                Email
+              </label>
               <Input
                 type="email"
                 placeholder="you@example.com"
@@ -73,7 +79,9 @@ const Login: React.FC = () => {
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-medium text-foreground">Password</label>
+              <label className="text-sm font-medium text-foreground">
+                Password
+              </label>
               <Input
                 type="password"
                 placeholder="••••••••"
@@ -88,13 +96,13 @@ const Login: React.FC = () => {
               type="submit"
               disabled={loading}
               className={cn(
-                'w-full h-11 text-base font-semibold',
-                'bg-gradient-to-r from-primary to-secondary',
-                'hover:from-primary/90 hover:to-secondary/90',
-                'text-primary-foreground'
+                "w-full h-11 text-base font-semibold",
+                "bg-gradient-to-r from-primary to-secondary",
+                "hover:from-primary/90 hover:to-secondary/90",
+                "text-primary-foreground",
               )}
             >
-              {loading ? 'Signing in...' : 'Sign In'}
+              {loading ? "Signing in..." : "Sign In"}
             </Button>
           </form>
 
@@ -108,7 +116,7 @@ const Login: React.FC = () => {
           </div>
 
           <p className="text-center text-muted-foreground text-sm">
-            Don't have an account?{' '}
+            Don't have an account?{" "}
             <Link
               to="/register"
               className="font-semibold text-primary hover:text-primary/90 transition-colors"
@@ -119,7 +127,9 @@ const Login: React.FC = () => {
 
           {/* Demo Credentials */}
           <div className="p-3 bg-secondary/10 border border-secondary/20 rounded-lg">
-            <p className="text-xs text-muted-foreground mb-2">Demo Credentials:</p>
+            <p className="text-xs text-muted-foreground mb-2">
+              Demo Credentials:
+            </p>
             <p className="text-xs font-mono text-foreground">
               Email: demo@example.com
             </p>
