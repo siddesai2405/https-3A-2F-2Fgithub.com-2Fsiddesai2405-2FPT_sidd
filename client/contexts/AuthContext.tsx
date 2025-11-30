@@ -22,6 +22,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   useEffect(() => {
     const checkAuth = async () => {
       try {
+        // Initialize database with demo data if needed
+        await initializeDatabase();
+
         const currentUser = await getCurrentUser();
         setUser(currentUser || null);
       } catch (error) {
