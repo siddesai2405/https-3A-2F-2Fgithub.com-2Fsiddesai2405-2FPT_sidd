@@ -170,7 +170,12 @@ const Stats: React.FC = () => {
                     border: '1px solid var(--border)',
                     borderRadius: '8px',
                   }}
-                  formatter={(value) => parseFloat(value).toFixed(1)}
+                  formatter={(value: any) => {
+                    if (typeof value === 'number') {
+                      return value.toFixed(1);
+                    }
+                    return parseFloat(value).toFixed(1);
+                  }}
                 />
                 <Line
                   type="monotone"
